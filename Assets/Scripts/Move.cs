@@ -30,18 +30,16 @@ public class Move : MonoBehaviour
         rb.velocity += new Vector2(velX,velY);
         velX = VelocityClamp(velX);
         velY = VelocityClamp(velY);
-        rb.velocity *= 0.85f;
+        rb.velocity *= 0.8f;
     }
 
     public float VelocityClamp(float velocity){
-        velocity *= 0.85f;
+        velocity *= 0.8f;
         if(velocity < 0.01f && velocity > -0.01f){
             velocity = 0;
         }
         return velocity;
     }
-
-    
 
     public IEnumerator TakeDamage(float damage)
     {

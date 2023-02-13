@@ -6,6 +6,9 @@ public class EnemyMove : MonoBehaviour
 {
     public float health;
     public SpriteRenderer render;
+    public bool chained;
+    public Animator anim;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +19,7 @@ public class EnemyMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        anim.SetBool("Chained", chained);
     }
 
     public void OnCollisionEnter2D(Collision2D hit)

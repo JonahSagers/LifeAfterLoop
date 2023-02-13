@@ -11,6 +11,12 @@ public class PlayerAttack : MonoBehaviour
     public bool flamethrower;
     public Animator cameraAnim;
     public Scrollbar Fuelbar;
+    public int chainCooldown;
+    public GameObject chainshot;
+    public GameObject projectile;
+    public GameObject chainPre;
+    public GameObject chain;
+    public List<GameObject> nextChains;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +37,17 @@ public class PlayerAttack : MonoBehaviour
             ps.Stop();
             flamethrower = false;
         }
-        cameraAnim.SetBool("flamethrower", flamethrower);
+        if(Input.GetMouseButton(0) && chainCooldown <= 0){
+            projectile = Instantiate(chainshot, transform.position, Quaternion.identity);
+            projectile.GetComponent<Chainshot>().rb.velocity = transform.right * 10;
+            chainCooldown = 50;
+        }
+        if(flamethrower || chainCooldown > 40){
+            cameraAnim.SetBool("flamethrower", true);
+        } else {
+            cameraAnim.SetBool("flamethrower", false);
+        }
+        
         Fuelbar.size = flamethrowerFuel / 100;
     }
     
@@ -46,6 +62,23 @@ public class PlayerAttack : MonoBehaviour
             }
         } else if(flamethrowerFuel < 100){
             flamethrowerFuel += 1f;
+        }
+        if(chainCooldown > 0){
+            chainCooldown -= 1;
+        }
+    }
+
+    public void ChainEnemies()
+    {
+        if(nextChains.Count >= 2){
+            chain = Instantiate(chainPre);
+            chain.GetComponent<LineRenderer>().positionCount = nextChains.Count;
+            int i = 0;
+            while(i < nextChains.Count){
+                chain.GetComponent<LineRenderer>().SetPosition(i,nextChains[i].transform.position);
+                i += 1;
+            }
+            nextChains.Clear();
         }
     }
 
