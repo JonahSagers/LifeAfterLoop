@@ -37,6 +37,19 @@ public class EnemyMove : MonoBehaviour
         if(health < 10){
             health += 0.02f;
         }
+        if(health <= 0){
+            int i = 0;
+            while(i <= 2){
+                newEnemy = Instantiate(GameObject.Find("Enemy Handler").GetComponent<EnemySpawner>().enemyPre, transform.position, Quaternion.identity);
+                newEnemy.GetComponent<Rigidbody2D>().velocity = new Vector3(Random.Range(-10,10),Random.Range(-10,10),0);
+                i += 1;
+            }
+            for(var j = attachedChains.Count - 1; j > -1; j--){
+                Destroy(attachedChains[j]);
+            }
+            Debug.Log("enemy killed");
+            Destroy(gameObject);
+        }
     }
 
     public void OnCollisionEnter2D(Collision2D hit)
@@ -49,16 +62,6 @@ public class EnemyMove : MonoBehaviour
     public IEnumerator TakeDamage(float damage)
     {
         health -= damage;
-        if(health <= 0){
-            int i = 0;
-            while(i <= 2){
-                newEnemy = Instantiate(GameObject.Find("Enemy Handler").GetComponent<EnemySpawner>().enemyPre, transform.position, Quaternion.identity);
-                newEnemy.GetComponent<Rigidbody2D>().velocity = new Vector3(Random.Range(-10,10),Random.Range(-10,10),0);
-                i += 1;
-            }
-            Destroy(attachedChains);
-            Destroy(gameObject);
-        }
         render.color = Color.red;
         yield return new WaitForSeconds(0.15f);
         render.color = Color.white;
