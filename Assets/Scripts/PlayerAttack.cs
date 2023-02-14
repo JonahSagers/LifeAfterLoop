@@ -56,7 +56,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if(flamethrower){
             if(flamethrowerFuel >= 1){
-                flamethrowerFuel -= 1;
+                flamethrowerFuel -= 0.5f;
             } else {
                 ps.Stop();
                 flamethrower = false;
@@ -71,6 +71,11 @@ public class PlayerAttack : MonoBehaviour
 
     public void ChainEnemies()
     {
+        for(var i = nextChains.Count - 1; i > -1; i--){
+            if (nextChains[i] == null){
+                nextChains.RemoveAt(i);
+            }
+        }
         if(nextChains.Count >= 2){
             chain = Instantiate(chainPre);
             chain.transform.position = Vector3.zero;
@@ -80,6 +85,7 @@ public class PlayerAttack : MonoBehaviour
             while(i < nextChains.Count){
                 chain.GetComponent<LineRenderer>().SetPosition(i,nextChains[i].transform.position);
                 edgePoints.Add(new Vector2(nextChains[i].transform.position.x,nextChains[i].transform.position.y));
+                nextChains[i].GetComponent<EnemyMove>().attachedChains.Add(chain);
                 i += 1;
             }
             chain.GetComponent<EdgeCollider2D>().SetPoints(edgePoints);
@@ -93,7 +99,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnParticleCollision(GameObject hit)
     {
-        if(hit.layer == 8){
+        if(hit.layer == 8 || hit.layer == 10){
             hit.GetComponent<EnemyMove>().StartCoroutine(hit.GetComponent<EnemyMove>().TakeDamage(1));
         }
     }
