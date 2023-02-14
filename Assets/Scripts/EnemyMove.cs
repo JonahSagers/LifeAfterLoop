@@ -22,7 +22,7 @@ public class EnemyMove : MonoBehaviour
     {
         anim.SetBool("Chained", chained);
         if(chained){
-            GetComponent<CircleCollider2D>().enabled = false;
+            gameObject.layer = 10;
             GetComponent<AIPath>().canMove = false;
         }
     }
