@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Pathfinding;
 
 public class EnemyMove : MonoBehaviour
 {
@@ -20,6 +21,10 @@ public class EnemyMove : MonoBehaviour
     void Update()
     {
         anim.SetBool("Chained", chained);
+        if(chained){
+            GetComponent<CircleCollider2D>().enabled = false;
+            GetComponent<AIPath>().canMove = false;
+        }
     }
 
     public void OnCollisionEnter2D(Collision2D hit)
