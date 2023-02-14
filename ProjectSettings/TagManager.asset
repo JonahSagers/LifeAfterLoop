@@ -38,6 +38,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Wayback
+    uniqueID: 2697157861
+    locked: 0
+  - name: Background
+    uniqueID: 3138967113
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 4105545617
     locked: 0

@@ -17,6 +17,7 @@ public class PlayerAttack : MonoBehaviour
     public GameObject chainPre;
     public GameObject chain;
     public List<GameObject> nextChains;
+    public List<Vector2> edgePoints;
     // Start is called before the first frame update
     void Start()
     {
@@ -72,14 +73,22 @@ public class PlayerAttack : MonoBehaviour
     {
         if(nextChains.Count >= 2){
             chain = Instantiate(chainPre);
+            chain.transform.position = Vector3.zero;
             chain.GetComponent<LineRenderer>().positionCount = nextChains.Count;
             int i = 0;
+            edgePoints.Clear();
             while(i < nextChains.Count){
                 chain.GetComponent<LineRenderer>().SetPosition(i,nextChains[i].transform.position);
+                edgePoints.Add(new Vector2(nextChains[i].transform.position.x,nextChains[i].transform.position.y));
                 i += 1;
             }
-            nextChains.Clear();
+            chain.GetComponent<EdgeCollider2D>().SetPoints(edgePoints);
+            for(int j = nextChains.Count; j > 1; j--){
+                nextChains.RemoveAt(0);
+                AstarPath.active.UpdateGraphs(chain.GetComponent<EdgeCollider2D>().bounds);
+            }
         }
+        
     }
 
     public void OnParticleCollision(GameObject hit)
