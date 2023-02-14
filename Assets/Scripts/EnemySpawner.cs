@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public Vector2 spawnLoc;
+    public Vector3 spawnLoc;
+    public GameObject enemyPre;
+    public GameObject newEnemy;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +21,7 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnEnemy()
     {
-        spawnLoc = new Vector2(Random.Range(-15,17),Random.Range(-9,12));
+        //spawnLoc = new Vector3(Random.Range(-15,17),Random.Range(-9,12),0);
+        //newEnemy = Instantiate(enemyPre, spawnLoc);
     }
 }
