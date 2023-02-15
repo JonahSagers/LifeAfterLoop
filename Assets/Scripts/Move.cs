@@ -30,6 +30,9 @@ public class Move : MonoBehaviour
         if(iFrames > 0){
             iFrames -= 1;
         }
+        if(health < 100){
+            health += 0.05f;
+        }
         velX += Input.GetAxisRaw("Horizontal") * speed;
         velY += Input.GetAxisRaw("Vertical") * speed;
         rb.velocity += new Vector2(velX,velY);
@@ -49,7 +52,7 @@ public class Move : MonoBehaviour
     public IEnumerator TakeDamage(float damage)
     {
         if(iFrames <= 0){
-            iFrames = 20;
+            iFrames = 10;
             health -= damage;
             render.color = Color.red;
             yield return new WaitForSeconds(0.15f);

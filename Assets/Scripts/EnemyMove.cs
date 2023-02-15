@@ -55,7 +55,7 @@ public class EnemyMove : MonoBehaviour
     public void OnCollisionStay2D(Collision2D hit)
     {
         if(hit.gameObject.layer == 7){
-            hit.gameObject.GetComponent<Move>().StartCoroutine(hit.gameObject.GetComponent<Move>().TakeDamage(5));
+            hit.gameObject.GetComponent<Move>().StartCoroutine(hit.gameObject.GetComponent<Move>().TakeDamage(10));
             hit.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.Normalize((transform.position - hit.gameObject.transform.position)) * -500);
             GetComponent<Rigidbody2D>().AddForce(Vector3.Normalize((transform.position - hit.gameObject.transform.position)) * 200);
         }
@@ -65,6 +65,9 @@ public class EnemyMove : MonoBehaviour
 
     public IEnumerator TakeDamage(float damage)
     {
+        if(!chained){
+            GetComponent<Rigidbody2D>().AddForce(Vector3.Normalize((transform.position - GameObject.Find("Player").transform.position)) * 500);
+        }
         health -= damage;
         render.color = Color.red;
         yield return new WaitForSeconds(0.15f);
