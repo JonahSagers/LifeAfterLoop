@@ -12,19 +12,24 @@ public class Move : MonoBehaviour
     public SpriteRenderer render;
     public float health;
     public Scrollbar healthBar;
+    public int iFrames;
     // Start is called before the first frame update
     void Start()
     {
+        iFrames = 0;
         health = 100;
     }
 
     void Update()
     {
-        healthBar.size = health;
+        healthBar.size = Mathf.Clamp(health / 100,0,1);
     }
 
     // Update is called once per frame
     void FixedUpdate(){
+        if(iFrames > 0){
+            iFrames -= 1;
+        }
         velX += Input.GetAxisRaw("Horizontal") * speed;
         velY += Input.GetAxisRaw("Vertical") * speed;
         rb.velocity += new Vector2(velX,velY);
@@ -43,9 +48,12 @@ public class Move : MonoBehaviour
 
     public IEnumerator TakeDamage(float damage)
     {
-        health -= damage;
-        render.color = Color.red;
-        yield return new WaitForSeconds(0.15f);
-        render.color = Color.white;
+        if(iFrames <= 0){
+            iFrames = 20;
+            health -= damage;
+            render.color = Color.red;
+            yield return new WaitForSeconds(0.15f);
+            render.color = Color.white;
+        }
     }
 }

@@ -52,12 +52,16 @@ public class EnemyMove : MonoBehaviour
         }
     }
 
-    public void OnCollisionEnter2D(Collision2D hit)
+    public void OnCollisionStay2D(Collision2D hit)
     {
         if(hit.gameObject.layer == 7){
-            hit.gameObject.GetComponent<Move>().StartCoroutine(hit.gameObject.GetComponent<Move>().TakeDamage(1));
+            hit.gameObject.GetComponent<Move>().StartCoroutine(hit.gameObject.GetComponent<Move>().TakeDamage(5));
+            hit.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.Normalize((transform.position - hit.gameObject.transform.position)) * -500);
+            GetComponent<Rigidbody2D>().AddForce(Vector3.Normalize((transform.position - hit.gameObject.transform.position)) * 200);
         }
     }
+    
+
 
     public IEnumerator TakeDamage(float damage)
     {
