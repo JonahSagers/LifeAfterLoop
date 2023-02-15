@@ -9,9 +9,14 @@ public class SigilHandler : MonoBehaviour
     public List<GameObject> sensors;
     public int activeSensors;
     public int sensorBuffer;
+    public bool immortality;
+    public ParticleSystem Particle1;
+    public ParticleSystem Particle2;
+    public Animator cameraAnim;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        immortality = true;
         CreateSigil(3,3);
     }
 
@@ -25,8 +30,9 @@ public class SigilHandler : MonoBehaviour
             }
         }
         activeSensors = sensorBuffer;
-        if(activeSensors == sensors.Count){
-            Debug.Log("Sigil Filled");
+        if(activeSensors == sensors.Count && immortality == true){
+            StartCoroutine(CompleteSigil());
+            immortality = false;
         }
     }
     void CreateSigil(int size, int amount)
@@ -41,5 +47,16 @@ public class SigilHandler : MonoBehaviour
             //line.SetPosition(i,currentSensor.transform.position);
             i += 1;
         }
+        transform.localScale = new Vector3(size*3,size*3, 1);
+    }
+    IEnumerator CompleteSigil()
+    {
+        Debug.Log("Sigil Filled");
+        Particle1.Play(false);
+        yield return new WaitForSeconds(1f);
+        cameraAnim.SetBool("sigil", true);
+        Particle2.Play(false);
+        yield return new WaitForSeconds(1.5f);
+        cameraAnim.SetBool("sigil", false);
     }
 }
