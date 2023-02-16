@@ -13,16 +13,16 @@ public class EnemyMove : MonoBehaviour
     public GameObject newEnemy;
     public List<GameObject> attachedChains;
     public SigilHandler sigil;
+    public EnemySpawner spawner;
     
     // Start is called before the first frame update
     void Awake()
     {
         sigil = GameObject.Find("Sigil").GetComponent<SigilHandler>();
+        spawner = GameObject.Find("Enemy Handler").GetComponent<EnemySpawner>();
         sigil.enemyCount += 1;
         GetComponent<AIDestinationSetter>().target = GameObject.Find("Player").transform;
-        health = 10;
-        //PLEASE FOR THE LOVE OF GOD MAKE A SEPARATE SCRIPT FOR EACH ENEMY TYPE
-        //but that's for later
+        health = 10 + 2 * spawner.difficulty;
     }
 
     // Update is called once per frame
@@ -37,7 +37,7 @@ public class EnemyMove : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if(health < 10){
+        if(health < 5 * spawner.difficulty){
             health += 0.02f;
         }
         if(health <= 0){
@@ -52,6 +52,7 @@ public class EnemyMove : MonoBehaviour
             for(var j = attachedChains.Count - 1; j > -1; j--){
                 Destroy(attachedChains[j]);
             }
+            AstarPath.active.Scan();
             sigil.enemyCount -= 1;
             Destroy(gameObject);
         }

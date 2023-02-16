@@ -8,28 +8,41 @@ public class EnemySpawner : MonoBehaviour
     public GameObject enemyPre;
     public GameObject newEnemy;
     public int maxEnemies;
+    public SigilHandler sigil;
+    public int difficulty;
     // Start is called before the first frame update
     void Start()
     {
-        StopCoroutine(SpawnWave());
-        maxEnemies = 10;
-        StartCoroutine(SpawnWave());
+        difficulty = 0;
+        StartCoroutine(NextWave());
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        
+        if(sigil.immortality == false && sigil.enemyCount == 0){
+            StartCoroutine(NextWave());
+        }
     }
     IEnumerator SpawnWave()
     {
         int i = 0;
-        while(i < maxEnemies && GameObject.Find("Sigil").GetComponent<SigilHandler>().immortality == true){
+        while(i < maxEnemies && sigil.immortality == true){
             SpawnEnemy();
-            yield return new WaitForSeconds(Random.Range(1,5));
+            yield return new WaitForSeconds(Random.Range(1,3));
             i++;
         }
         
+    }
+
+    IEnumerator NextWave()
+    {
+        StopCoroutine(SpawnWave());
+        difficulty += 5;
+        maxEnemies = 5 + difficulty;
+        sigil.CreateSigil(Mathf.Clamp(difficulty / 5 + 2,0,7), difficulty / 5 + 2);
+        StartCoroutine(SpawnWave());
+        yield return new WaitForSeconds(0);
     }
 
     void SpawnEnemy()

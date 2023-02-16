@@ -5940,6 +5940,8 @@ MonoBehaviour:
   enemyPre: {fileID: 4373962839723899298, guid: d7675f66de351a943b4f2b31c1ccde9a, type: 3}
   newEnemy: {fileID: 0}
   maxEnemies: 0
+  sigil: {fileID: 1204254217}
+  difficulty: 0
 --- !u!1 &1155824884
 GameObject:
   m_ObjectHideFlags: 0
@@ -6174,6 +6176,7 @@ MonoBehaviour:
   cameraAnim: {fileID: 1188996987}
   sigilRender: {fileID: 1432179803}
   enemyCount: 0
+  spawner: {fileID: 1154297490}
 --- !u!4 &1204254218
 Transform:
   m_ObjectHideFlags: 0

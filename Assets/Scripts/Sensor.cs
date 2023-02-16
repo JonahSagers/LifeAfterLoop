@@ -17,19 +17,18 @@ public class Sensor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(overlaps.Count > 0){
-            active = true;
-            render.color = Color.green;
-        } else {
-            active = false;
-            render.color = Color.magenta;
-        }
         if(Physics2D.OverlapCircleAll(transform.position,1,chainedEnemies).Length > 0){
             foreach(Collider2D enemy in Physics2D.OverlapCircleAll(transform.position,1,chainedEnemies)){
                 if(!overlaps.Contains(enemy.gameObject.GetComponent<CircleCollider2D>())){
                     overlaps.Add(enemy.gameObject.GetComponent<CircleCollider2D>());
+                    active = true;
+                    render.color = Color.green;
                 }
             }
+        } else{
+            overlaps.Clear();
+            active = false;
+            render.color = Color.magenta;
         }
     }
 
