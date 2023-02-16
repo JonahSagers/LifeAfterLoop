@@ -19,7 +19,7 @@ public class TextDisplay : MonoBehaviour
         
     }
 
-    IEnumerator ShowText(string message)
+    public IEnumerator ShowText(string message)
     {
         int i = 0;
         while(i <= message.Length){

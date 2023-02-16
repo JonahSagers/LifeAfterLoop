@@ -40,7 +40,7 @@ public class EnemySpawner : MonoBehaviour
         StopCoroutine(SpawnWave());
         difficulty += 5;
         maxEnemies = 5 + difficulty;
-        sigil.CreateSigil(Mathf.Clamp(difficulty / 5 + 2,0,7), difficulty / 5 + 2);
+        sigil.CreateSigil(Mathf.Clamp(difficulty / 5 + 4,0,7), difficulty / 5 + 2);
         StartCoroutine(SpawnWave());
         yield return new WaitForSeconds(0);
     }

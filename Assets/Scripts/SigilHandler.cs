@@ -16,6 +16,7 @@ public class SigilHandler : MonoBehaviour
     public Transform sigilRender;
     public int enemyCount;
     public EnemySpawner spawner;
+    public TextDisplay text;
     // Start is called before the first frame update
     void Awake()
     {
@@ -72,13 +73,16 @@ public class SigilHandler : MonoBehaviour
             enemy.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.None;
             enemy.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
             enemy.GetComponent<AIPath>().maxSpeed = 4 + spawner.difficulty / 5;
-            Debug.Log("Enemy Freed");
         }
         foreach(GameObject chain in GameObject.FindGameObjectsWithTag("Chain")){
             Destroy(chain);
         }
         yield return new WaitForSeconds(0.75f);
+        StartCoroutine(text.ShowText("The loop is broken"));
+        Debug.Log("AAAAAA");
         cameraAnim.SetBool("sigil", false);
         AstarPath.active.Scan();
+        yield return new WaitForSeconds(2.5f);
+        StartCoroutine(text.ShowText("Death has been restored"));
     }
 }
