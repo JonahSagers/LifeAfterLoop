@@ -24,7 +24,7 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnWave()
     {
         int i = 0;
-        while(i < maxEnemies){
+        while(i < maxEnemies && GameObject.Find("Sigil").GetComponent<SigilHandler>().immortality == true){
             SpawnEnemy();
             yield return new WaitForSeconds(Random.Range(1,5));
             i++;

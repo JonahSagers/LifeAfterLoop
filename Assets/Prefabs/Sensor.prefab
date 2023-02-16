@@ -101,6 +101,9 @@ MonoBehaviour:
   render: {fileID: 6861054807857917247}
   overlaps: []
   active: 0
+  chainedEnemies:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!58 &6861054807857917244
 CircleCollider2D:
   m_ObjectHideFlags: 0

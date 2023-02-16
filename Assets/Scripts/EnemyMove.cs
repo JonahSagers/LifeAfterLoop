@@ -12,10 +12,13 @@ public class EnemyMove : MonoBehaviour
     public GameObject enemyPre;
     public GameObject newEnemy;
     public List<GameObject> attachedChains;
+    public SigilHandler sigil;
     
     // Start is called before the first frame update
     void Awake()
     {
+        sigil = GameObject.Find("Sigil").GetComponent<SigilHandler>();
+        sigil.enemyCount += 1;
         GetComponent<AIDestinationSetter>().target = GameObject.Find("Player").transform;
         health = 10;
         //PLEASE FOR THE LOVE OF GOD MAKE A SEPARATE SCRIPT FOR EACH ENEMY TYPE
@@ -38,16 +41,18 @@ public class EnemyMove : MonoBehaviour
             health += 0.02f;
         }
         if(health <= 0){
-            int i = 0;
-            while(i <= 2){
-                newEnemy = Instantiate(GameObject.Find("Enemy Handler").GetComponent<EnemySpawner>().enemyPre, transform.position, Quaternion.identity);
-                newEnemy.GetComponent<Rigidbody2D>().velocity = new Vector3(Random.Range(-10,10),Random.Range(-10,10),0);
-                i += 1;
+            if(sigil.immortality == true){
+                int i = 0;
+                while(i <= 2){
+                    newEnemy = Instantiate(GameObject.Find("Enemy Handler").GetComponent<EnemySpawner>().enemyPre, transform.position, Quaternion.identity);
+                    newEnemy.GetComponent<Rigidbody2D>().velocity = new Vector3(Random.Range(-10,10),Random.Range(-10,10),0);
+                    i += 1;
+                }
             }
             for(var j = attachedChains.Count - 1; j > -1; j--){
                 Destroy(attachedChains[j]);
             }
-            Debug.Log("enemy killed");
+            sigil.enemyCount -= 1;
             Destroy(gameObject);
         }
     }
