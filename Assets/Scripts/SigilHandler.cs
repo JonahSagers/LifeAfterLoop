@@ -17,10 +17,11 @@ public class SigilHandler : MonoBehaviour
     public int enemyCount;
     public EnemySpawner spawner;
     public TextDisplay text;
+    public bool ticking;
     // Start is called before the first frame update
     void Awake()
     {
-
+        sigilRender.localScale = new Vector3(0,0, 1);
     }
 
     // Update is called once per frame
@@ -33,7 +34,7 @@ public class SigilHandler : MonoBehaviour
             }
         }
         activeSensors = sensorBuffer;
-        if(activeSensors == sensors.Count && immortality == true){
+        if(activeSensors == sensors.Count && immortality == true && ticking == true){
             StartCoroutine(CompleteSigil());
             immortality = false;
             
@@ -78,11 +79,10 @@ public class SigilHandler : MonoBehaviour
             Destroy(chain);
         }
         yield return new WaitForSeconds(0.75f);
-        StartCoroutine(text.ShowText("The loop is broken"));
-        Debug.Log("AAAAAA");
+        StartCoroutine(text.ShowText("The loop is broken", 1));
         cameraAnim.SetBool("sigil", false);
         AstarPath.active.Scan();
         yield return new WaitForSeconds(2.5f);
-        StartCoroutine(text.ShowText("Death has been restored"));
+        StartCoroutine(text.ShowText("Death has been restored", 1));
     }
 }

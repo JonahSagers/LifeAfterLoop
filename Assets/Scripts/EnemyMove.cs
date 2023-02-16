@@ -22,7 +22,7 @@ public class EnemyMove : MonoBehaviour
         spawner = GameObject.Find("Enemy Handler").GetComponent<EnemySpawner>();
         sigil.enemyCount += 1;
         GetComponent<AIDestinationSetter>().target = GameObject.Find("Player").transform;
-        health = 10 + 2 * spawner.difficulty;
+        health = 20;
     }
 
     // Update is called once per frame
@@ -61,7 +61,7 @@ public class EnemyMove : MonoBehaviour
     public void OnCollisionStay2D(Collision2D hit)
     {
         if(hit.gameObject.layer == 7){
-            hit.gameObject.GetComponent<Move>().StartCoroutine(hit.gameObject.GetComponent<Move>().TakeDamage(10));
+            hit.gameObject.GetComponent<Move>().StartCoroutine(hit.gameObject.GetComponent<Move>().TakeDamage(5));
             hit.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector3.Normalize((transform.position - hit.gameObject.transform.position)) * -500);
             GetComponent<Rigidbody2D>().AddForce(Vector3.Normalize((transform.position - hit.gameObject.transform.position)) * 200);
         }
@@ -77,6 +77,9 @@ public class EnemyMove : MonoBehaviour
         health -= damage;
         render.color = Color.red;
         yield return new WaitForSeconds(0.15f);
-        render.color = Color.white;
+        if(render != null){
+            render.color = Color.white;
+        }
+        
     }
 }

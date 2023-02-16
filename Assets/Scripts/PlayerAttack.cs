@@ -16,8 +16,11 @@ public class PlayerAttack : MonoBehaviour
     public GameObject projectile;
     public GameObject chainPre;
     public GameObject chain;
+    public TextDisplay text;
     public List<GameObject> nextChains;
     public List<Vector2> edgePoints;
+    public bool canFlame;
+    public bool canChain;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,14 +34,14 @@ public class PlayerAttack : MonoBehaviour
         mousePos2D = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x,Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
         transform.rotation = Quaternion.Euler(new Vector3(0,0,Mathf.Atan2((mousePos2D - new Vector2(transform.position.x,transform.position.y)).y, (mousePos2D - new Vector2(transform.position.x,transform.position.y)).x)*(180/Mathf.PI)));
         transform.localPosition = transform.right;
-        if(Input.GetMouseButtonDown(1)){
+        if(Input.GetMouseButtonDown(1) && canFlame == true){
             ps.Play();
             flamethrower = true;
         } else if(Input.GetMouseButtonUp(1)){
             ps.Stop();
             flamethrower = false;
         }
-        if(Input.GetMouseButton(0) && chainCooldown <= 0){
+        if(Input.GetMouseButton(0) && chainCooldown <= 0 && canChain == true){
             projectile = Instantiate(chainshot, transform.position, Quaternion.identity);
             projectile.GetComponent<Chainshot>().rb.velocity = transform.right * 10;
             chainCooldown = 50;
@@ -77,6 +80,7 @@ public class PlayerAttack : MonoBehaviour
             }
         }
         if(nextChains.Count >= 2){
+            text.tutorialTrigger = true;
             chain = Instantiate(chainPre);
             chain.transform.position = Vector3.zero;
             chain.GetComponent<LineRenderer>().positionCount = nextChains.Count;
@@ -100,7 +104,7 @@ public class PlayerAttack : MonoBehaviour
     public void OnParticleCollision(GameObject hit)
     {
         if(hit.layer == 8 || hit.layer == 10){
-            hit.GetComponent<EnemyMove>().StartCoroutine(hit.GetComponent<EnemyMove>().TakeDamage(1));
+            StartCoroutine(hit.GetComponent<EnemyMove>().TakeDamage(1));
         }
     }
 }

@@ -10,22 +10,34 @@ public class EnemySpawner : MonoBehaviour
     public int maxEnemies;
     public SigilHandler sigil;
     public int difficulty;
+    public TextDisplay text;
+    public bool tutorial;
     // Start is called before the first frame update
     void Start()
     {
-        difficulty = 0;
-        StartCoroutine(NextWave());
+        tutorial = false;
+        if(tutorial){
+            sigil.ticking = false;
+            StartCoroutine(text.IntroSequence());
+        } else {
+            sigil.ticking = true;
+            Destroy(text.tutorialChain);
+            Destroy(text.tutorialEnemy.gameObject);
+            AstarPath.active.Scan();
+            StartCoroutine(NextWave());
+        }
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        if(sigil.immortality == false && sigil.enemyCount == 0){
+        if(sigil.immortality == false && sigil.enemyCount == 0 && sigil.ticking == true){
             StartCoroutine(NextWave());
         }
     }
     IEnumerator SpawnWave()
     {
+        StartCoroutine(text.ShowText("Wave " + (difficulty / 5).ToString(), 0.5f));
         int i = 0;
         while(i < maxEnemies && sigil.immortality == true){
             SpawnEnemy();
@@ -35,7 +47,7 @@ public class EnemySpawner : MonoBehaviour
         
     }
 
-    IEnumerator NextWave()
+    public IEnumerator NextWave()
     {
         StopCoroutine(SpawnWave());
         difficulty += 5;
@@ -45,7 +57,7 @@ public class EnemySpawner : MonoBehaviour
         yield return new WaitForSeconds(0);
     }
 
-    void SpawnEnemy()
+    public void SpawnEnemy()
     {
         spawnLoc = new Vector3(Random.Range(-15,17),Random.Range(-9,12),0);
         newEnemy = Instantiate(enemyPre, spawnLoc, Quaternion.identity);
