@@ -79,7 +79,7 @@ public class Move : MonoBehaviour
         screenFlash.enabled = true;
         yield return new WaitForSeconds(2);
         StartCoroutine(text.ShowText("Game Over", 1f));
-        yield return new WaitForSeconds(1.38f);
+        yield return new WaitForSeconds(1.39f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         
     }

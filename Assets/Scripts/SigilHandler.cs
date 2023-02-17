@@ -83,6 +83,6 @@ public class SigilHandler : MonoBehaviour
         cameraAnim.SetBool("sigil", false);
         AstarPath.active.Scan();
         yield return new WaitForSeconds(2.5f);
-        StartCoroutine(text.ShowText("Death has been restored", 1));
+        StartCoroutine(text.ShowText("Burn them down", 1));
     }
 }

@@ -11,12 +11,11 @@ public class EnemySpawner : MonoBehaviour
     public SigilHandler sigil;
     public int difficulty;
     public TextDisplay text;
-    public bool tutorial;
+    public StaticHandler handler;
     // Start is called before the first frame update
     void Start()
     {
-        tutorial = false;
-        if(tutorial){
+        if(handler.tutorial){
             sigil.ticking = false;
             StartCoroutine(text.IntroSequence());
         } else {
@@ -26,6 +25,7 @@ public class EnemySpawner : MonoBehaviour
             AstarPath.active.Scan();
             StartCoroutine(NextWave());
         }
+        handler.tutorial = false;
     }
 
     // Update is called once per frame
