@@ -57,11 +57,12 @@ public class TextDisplay : MonoBehaviour
         yield return new WaitForSeconds(1);
         StartCoroutine(ShowText("Death is not their end", 0.75f));
         yield return new WaitForSeconds(4);
-        StartCoroutine(ShowText("An unholy magic aids our enemies", 1f));
+        StartCoroutine(ShowText("It is not natural", 0.75f));
         yield return new WaitForSeconds(5);
         StartCoroutine(ShowText("Break their loop", 0.5f));
         yield return new WaitForSeconds(4f);
-        StartCoroutine(ShowText("Bring back death", 0.5f));
+        StartCoroutine(ShowText("Bring back death", 1f));
+        yield return new WaitForSeconds(4f);
         screenFlash.enabled = false;
         sigil.immortality = true;
         StartCoroutine(ShowText("Right click to attack", 1f));

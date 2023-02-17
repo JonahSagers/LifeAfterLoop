@@ -16,8 +16,10 @@ public class Move : MonoBehaviour
     public int iFrames;
     public float friction;
     public Image screenFlash;
+    public Image screenFlashRed;
     public TextDisplay text;
     public bool gameOver;
+    public PlayerAttack weapon;
     // Start is called before the first frame update
     void Start()
     {
@@ -75,7 +77,12 @@ public class Move : MonoBehaviour
         gameOver = true;
         friction = 0.95f;
         speed = 0;
-        yield return new WaitForSeconds(2);
+        weapon.canChain = false;
+        weapon.canFlame = false;
+        screenFlashRed.enabled = true;
+        yield return new WaitForSeconds(0.15f);
+        screenFlashRed.enabled = false;
+        yield return new WaitForSeconds(1.85f);
         screenFlash.enabled = true;
         yield return new WaitForSeconds(2);
         StartCoroutine(text.ShowText("Game Over", 1f));

@@ -10,7 +10,6 @@ public class StaticHandler : MonoBehaviour
     {
         tutorial = true;
         DontDestroyOnLoad(gameObject);
-        Debug.Log("Staticed");
     }
 
     // Update is called once per frame
