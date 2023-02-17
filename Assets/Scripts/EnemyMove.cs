@@ -34,6 +34,7 @@ public class EnemyMove : MonoBehaviour
             GetComponent<AIPath>().canMove = false;
             GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
         }
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x,-16,18),Mathf.Clamp(transform.position.y,-10,13),0);
     }
     void FixedUpdate()
     {

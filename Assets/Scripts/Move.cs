@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Move : MonoBehaviour
 {
@@ -13,16 +14,25 @@ public class Move : MonoBehaviour
     public float health;
     public Scrollbar healthBar;
     public int iFrames;
+    public float friction;
+    public Image screenFlash;
+    public TextDisplay text;
+    public bool gameOver;
     // Start is called before the first frame update
     void Start()
     {
         iFrames = 0;
         health = 100;
+        friction = 0.81f;
+        gameOver = false;
     }
 
     void Update()
     {
         healthBar.size = Mathf.Clamp(health / 100,0,1);
+        if(health <= 0 && gameOver == false){
+            StartCoroutine(GameOver());
+        }
     }
 
     // Update is called once per frame
@@ -38,7 +48,7 @@ public class Move : MonoBehaviour
         rb.velocity += new Vector2(velX,velY);
         velX = VelocityClamp(velX);
         velY = VelocityClamp(velY);
-        rb.velocity *= 0.81f;
+        rb.velocity *= friction;
     }
 
     public float VelocityClamp(float velocity){
@@ -58,5 +68,19 @@ public class Move : MonoBehaviour
             yield return new WaitForSeconds(0.15f);
             render.color = Color.white;
         }
+    }
+
+    IEnumerator GameOver()
+    {
+        gameOver = true;
+        friction = 0.95f;
+        speed = 0;
+        yield return new WaitForSeconds(2);
+        screenFlash.enabled = true;
+        yield return new WaitForSeconds(2);
+        StartCoroutine(text.ShowText("Game Over", 1f));
+        yield return new WaitForSeconds(1.38f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        
     }
 }

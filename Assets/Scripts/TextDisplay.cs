@@ -41,7 +41,6 @@ public class TextDisplay : MonoBehaviour
             yield return new WaitForSeconds(0.025f);
         }
         yield return new WaitForSeconds(1f / speed);
-        Debug.Log(i);
         while(i > 0){
             i -= 1;
             text.text = message.Substring(0,i);

@@ -5209,6 +5209,10 @@ MonoBehaviour:
   health: 0
   healthBar: {fileID: 869569694}
   iFrames: 0
+  friction: 0
+  screenFlash: {fileID: 1214490173}
+  text: {fileID: 1113290094}
+  gameOver: 0
 --- !u!212 &199062318
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6102,7 +6106,7 @@ MonoBehaviour:
   sigil: {fileID: 1204254217}
   difficulty: 0
   text: {fileID: 1113290094}
-  tutorial: 0
+  tutorial: 1
 --- !u!1 &1155824884
 GameObject:
   m_ObjectHideFlags: 0
