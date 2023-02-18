@@ -80,14 +80,16 @@ public class Move : MonoBehaviour
         weapon.canChain = false;
         weapon.canFlame = false;
         screenFlashRed.enabled = true;
-        yield return new WaitForSeconds(0.15f);
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("Main");
+        asyncOperation.allowSceneActivation = false;
+        yield return new WaitForSeconds(0.1f);
         screenFlashRed.enabled = false;
         yield return new WaitForSeconds(1.85f);
         screenFlash.enabled = true;
         yield return new WaitForSeconds(2);
         StartCoroutine(text.ShowText("Game Over", 1f));
         yield return new WaitForSeconds(1.39f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        asyncOperation.allowSceneActivation = true;
         
     }
 }

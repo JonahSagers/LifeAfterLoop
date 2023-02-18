@@ -18,7 +18,7 @@ public class TextDisplay : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        texting = false;
     }
 
     // Update is called once per frame
@@ -54,17 +54,15 @@ public class TextDisplay : MonoBehaviour
         weapon.canFlame = true;
         weapon.canChain = false;
         screenFlash.enabled = true;
+        sigil.immortality = true;
         yield return new WaitForSeconds(1);
         StartCoroutine(ShowText("Death is not their end", 0.75f));
-        yield return new WaitForSeconds(4);
-        StartCoroutine(ShowText("It is not natural", 0.75f));
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
         StartCoroutine(ShowText("Break their loop", 0.5f));
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(3);
         StartCoroutine(ShowText("Bring back death", 1f));
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2.5f);
         screenFlash.enabled = false;
-        sigil.immortality = true;
         StartCoroutine(ShowText("Right click to attack", 1f));
         yield return new WaitUntil(() => tutorialEnemy.health <= 0);
         weapon.canFlame = false;

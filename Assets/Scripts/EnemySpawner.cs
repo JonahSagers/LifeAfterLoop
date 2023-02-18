@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -12,13 +13,16 @@ public class EnemySpawner : MonoBehaviour
     public int difficulty;
     public TextDisplay text;
     public StaticHandler handler;
+    public Image screenFlash;
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
+        yield return new WaitForSeconds(0.1f);
         if(handler.tutorial){
             sigil.ticking = false;
             StartCoroutine(text.IntroSequence());
         } else {
+            screenFlash.enabled = false;
             sigil.ticking = true;
             Destroy(text.tutorialChain);
             Destroy(text.tutorialEnemy.gameObject);
