@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 20
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 1239532213, guid: e0b9c72ece2dd8740b78e012f2dcab60, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -111,6 +111,7 @@ MonoBehaviour:
   newEnemy: {fileID: 0}
   attachedChains: []
   sigil: {fileID: 0}
+  spawner: {fileID: 0}
 --- !u!58 &4373962839723899311
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -167,7 +168,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &4373962839723899308
 MonoBehaviour:
   m_ObjectHideFlags: 0

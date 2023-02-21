@@ -20,6 +20,10 @@ public class Move : MonoBehaviour
     public TextDisplay text;
     public bool gameOver;
     public PlayerAttack weapon;
+    public Vector2 normalVel;
+    public Animator anim;
+    public AudioSource speakerHit;
+    public AudioSource speakerDeath;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +39,16 @@ public class Move : MonoBehaviour
         if(health <= 0 && gameOver == false){
             StartCoroutine(GameOver());
         }
+        if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0){
+            anim.SetBool("moving", true);
+        } else {
+            anim.SetBool("moving", false);
+        }
+        if(Input.GetAxisRaw("Horizontal") < 0){
+            transform.rotation = Quaternion.Euler(new Vector3(0,180,0));
+        } else {
+            transform.rotation = Quaternion.Euler(new Vector3(0,0,0));
+        }
     }
 
     // Update is called once per frame
@@ -45,8 +59,9 @@ public class Move : MonoBehaviour
         if(health < 100){
             health += 0.05f;
         }
-        velX += Input.GetAxisRaw("Horizontal") * speed;
-        velY += Input.GetAxisRaw("Vertical") * speed;
+        normalVel = new Vector2(Input.GetAxisRaw("Horizontal"),Input.GetAxisRaw("Vertical")).normalized * speed;
+        velX += normalVel.x;
+        velY += normalVel.y;
         rb.velocity += new Vector2(velX,velY);
         velX = VelocityClamp(velX);
         velY = VelocityClamp(velY);
@@ -66,6 +81,9 @@ public class Move : MonoBehaviour
         if(iFrames <= 0){
             iFrames = 10;
             health -= damage;
+            if(gameOver == false){
+                speakerHit.Play();
+            }
             render.color = Color.red;
             yield return new WaitForSeconds(0.15f);
             render.color = Color.white;
@@ -79,7 +97,9 @@ public class Move : MonoBehaviour
         speed = 0;
         weapon.canChain = false;
         weapon.canFlame = false;
+        speakerDeath.Play();
         screenFlashRed.enabled = true;
+        weapon.gameObject.SetActive(false);
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync("Main");
         asyncOperation.allowSceneActivation = false;
         yield return new WaitForSeconds(0.1f);

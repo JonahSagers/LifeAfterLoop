@@ -14,6 +14,7 @@ public class EnemySpawner : MonoBehaviour
     public TextDisplay text;
     public StaticHandler handler;
     public Image screenFlash;
+    public AudioSource speaker;
     // Start is called before the first frame update
     IEnumerator Start()
     {
@@ -54,6 +55,7 @@ public class EnemySpawner : MonoBehaviour
     public IEnumerator NextWave()
     {
         StopCoroutine(SpawnWave());
+        speaker.Play();
         difficulty += 5;
         maxEnemies = 5 + difficulty;
         sigil.CreateSigil(Mathf.Clamp(difficulty / 5 + 4,0,7), difficulty / 5 + 2);

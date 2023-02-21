@@ -18,6 +18,7 @@ public class SigilHandler : MonoBehaviour
     public EnemySpawner spawner;
     public TextDisplay text;
     public bool ticking;
+    public AudioSource speaker;
     // Start is called before the first frame update
     void Awake()
     {
@@ -64,6 +65,7 @@ public class SigilHandler : MonoBehaviour
         Debug.Log("Sigil Filled");
         yield return new WaitForSeconds(1f);
         ps.Play(false);
+        speaker.Play();
         GameObject.Find("Flamethrower").GetComponent<PlayerAttack>().nextChains.Clear();
         cameraAnim.SetBool("sigil", true);
         yield return new WaitForSeconds(0.75f);

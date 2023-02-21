@@ -21,6 +21,11 @@ public class PlayerAttack : MonoBehaviour
     public List<Vector2> edgePoints;
     public bool canFlame;
     public bool canChain;
+    public Rigidbody2D playerRb;
+    public Animator anim;
+    public Transform player;
+    public AudioSource speakerChain;
+    public AudioSource speakerFlame;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,10 +35,10 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.localPosition = Vector3.zero;
+        transform.position = player.position;
         mousePos2D = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x,Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
         transform.rotation = Quaternion.Euler(new Vector3(0,0,Mathf.Atan2((mousePos2D - new Vector2(transform.position.x,transform.position.y)).y, (mousePos2D - new Vector2(transform.position.x,transform.position.y)).x)*(180/Mathf.PI)));
-        transform.localPosition = transform.right;
+        transform.position += transform.right;
         if(Input.GetMouseButtonDown(1) && canFlame == true){
             ps.Play();
             flamethrower = true;
@@ -42,8 +47,11 @@ public class PlayerAttack : MonoBehaviour
             flamethrower = false;
         }
         if(Input.GetMouseButton(0) && chainCooldown <= 0 && canChain == true){
-            projectile = Instantiate(chainshot, transform.position, Quaternion.identity);
+            playerRb.AddForce(Vector3.Normalize((transform.position - GameObject.Find("Player").transform.position)) * -100);
+            projectile = Instantiate(chainshot, transform.position + (transform.right/2), Quaternion.identity);
             projectile.GetComponent<Chainshot>().rb.velocity = transform.right * 10;
+            anim.Play("Chain");
+            speakerChain.Play();
             chainCooldown = 50;
         }
         if(flamethrower || chainCooldown > 40){
@@ -51,7 +59,7 @@ public class PlayerAttack : MonoBehaviour
         } else {
             cameraAnim.SetBool("flamethrower", false);
         }
-        
+        anim.SetBool("Flamethrower", flamethrower);
         Fuelbar.size = flamethrowerFuel / 100;
     }
     
@@ -60,6 +68,9 @@ public class PlayerAttack : MonoBehaviour
         if(flamethrower){
             if(flamethrowerFuel >= 1){
                 flamethrowerFuel -= 0.5f;
+                speakerFlame.pitch = flamethrowerFuel / 100;
+                speakerFlame.Play();
+                playerRb.AddForce(Vector3.Normalize((transform.position - GameObject.Find("Player").transform.position)) * -25);
             } else {
                 ps.Stop();
                 flamethrower = false;

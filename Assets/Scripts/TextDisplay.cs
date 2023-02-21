@@ -15,6 +15,8 @@ public class TextDisplay : MonoBehaviour
     public PlayerAttack weapon;
     public bool tutorialTrigger;
     public EnemySpawner spawner;
+    public AudioSource speakerIn;
+    public AudioSource speakerOut;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,12 +39,14 @@ public class TextDisplay : MonoBehaviour
         int i = 0;
         while(i <= message.Length){
             text.text = message.Substring(0,i);
+            speakerIn.Play();
             i += 1;
             yield return new WaitForSeconds(0.025f);
         }
         yield return new WaitForSeconds(1f / speed);
         while(i > 0){
             i -= 1;
+            speakerOut.Play();
             text.text = message.Substring(0,i);
             yield return new WaitForSeconds(0.01f);
         }
@@ -77,8 +81,6 @@ public class TextDisplay : MonoBehaviour
         StartCoroutine(ShowText("Left click to chain", 0.75f));
         weapon.canChain = true;
         yield return new WaitForSeconds(2);
-        StartCoroutine(ShowText("Dropping the barrier", 0.75f));
-        yield return new WaitForSeconds(2);
         Destroy(tutorialChain);
         AstarPath.active.Scan();
         yield return new WaitUntil(() => tutorialTrigger);
@@ -90,7 +92,7 @@ public class TextDisplay : MonoBehaviour
         foreach(GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy")){
             Destroy(enemy);
         }
-        StartCoroutine(ShowText("Finally, breaking the loop", 0.75f));
+        StartCoroutine(ShowText("Now, breaking the loop", 0.75f));
         yield return new WaitForSeconds(2);
         spawner.SpawnEnemy();
         StartCoroutine(ShowText("Chain the enemy on top of the rune", 1f));

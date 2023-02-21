@@ -32,7 +32,7 @@ public class EnemyMove : MonoBehaviour
         if(chained){
             gameObject.layer = 10;
             GetComponent<AIPath>().canMove = false;
-            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
         }
         transform.position = new Vector3(Mathf.Clamp(transform.position.x,-16,18),Mathf.Clamp(transform.position.y,-10,13),0);
     }
@@ -76,7 +76,7 @@ public class EnemyMove : MonoBehaviour
             GetComponent<Rigidbody2D>().AddForce(Vector3.Normalize((transform.position - GameObject.Find("Player").transform.position)) * 500);
         }
         health -= damage;
-        render.color = Color.red;
+        render.color = Color.black;
         yield return new WaitForSeconds(0.15f);
         if(render != null){
             render.color = Color.white;
